@@ -1,0 +1,11 @@
+.idea
+bak
+*.bak
+*.pyc
+*.sqlite3
+media
+compilers
+uploaded_code
+venv
+.env
+docs
