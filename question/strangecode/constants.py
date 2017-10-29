@@ -1,0 +1,1 @@
+MAX_VALID_HALSTEAD_METRICS_PERCENTAGE_DIFFERENCE=50 # for finding strange code using Halstead metrics

@@ -1,0 +1,103 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block customstyle %}
+<style type="text/css" media="screen">
+div[role="code_editor"] {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+}
+</style>
+{% endblock %}
+
+{% block navsidebar %}
+    <div class="navbar-default sidebar" role="navigation" id="test_left_panel">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+            <h3 class="panel-title">Time Remaining</h3>
+            </div>
+            <div class="panel-body">
+                <div id="test_timer"></div>
+            </div>
+        </div>
+    <p class="clearfix"></p>
+    <input type="submit" value="Submit" class="btn btn-sm btn-primary" form="code_form"/>
+    </div>
+    <input type="hidden" value="{{ test.time_limit }}" name="time_limit"/>
+
+{% endblock %}
+
+
+{% block right_nav %}
+    <p class="clearfix"></p>
+    <a type="button" id="endtest_btn" class="btn btn-sm btn-danger" href="{% url 'online_test_submission_end_student' test.slug %}">End Test</a>
+{% endblock %}
+
+{% block content %}
+    <div class="page-header">
+        <h1>Online Test Submission</h1>
+    </div>
+    <form method="post" class="hidden" id="code_form"></form>
+    {% if questions %}
+        {% for question in questions %}
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Question {{ forloop.counter }}: {{ question.title }}</h3>
+                </div>
+                <div class="panel-body">
+                    {% autoescape off %}
+                        {{ question.get_summary_brief }}
+                    {% endautoescape %}
+                    <ul class="list-group">
+                        <li class="list-group-item"><h4>Program Code</h4></li>
+                        <li class="list-group-item">
+                        <div id="editor{{ forloop.counter0 }}" rank="{{ forloop.counter0 }}" role="code_editor">
+                            {% if question.code_template %}
+                            {{ question.code_template }}
+                            {% else %}
+                             /*Enter your code here*/
+                            {% endif %}
+                        </div>
+                        <textarea rows="10" class="form-control" name="code" id="code" form="code_form"></textarea>
+                            <input type="hidden" name="editor_language_name" value="{{ question.get_editor_language_name }}"/>
+                        </li>
+                        <li class="list-group-item"><a type="button" class="btn btn-sm btn-default" role="trigger_compilation">Try Compilation</a>
+                            <img src="{% static 'img/loader.gif' %}" class="hidden" height="50px" width="50px" alt="Please Wait..."/>
+                            <input type="hidden" value="{{ question.required_language }}" name="required_language"/>
+                            <div class="alert alert-danger hidden" role="alert">
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    <input type="submit" value="Submit" form="code_form"/>
+{% endblock %}
+
+{% block customjs %}
+    <script type="text/javascript">
+        END_YEAR={{ end_time_list.0 }};
+        END_MONTH={{ end_time_list.1 }};
+        END_DAY={{ end_time_list.2 }};
+        END_HOUR={{ end_time_list.3 }};
+        END_MINUTE={{ end_time_list.4 }};
+        END_SECOND={{ end_time_list.5 }};
+        REDIRECT_URL='{% url 'online_test_submission_end_student' onlinetest.slug %}';
+        {% if auto_submit_upon_timeout  %}
+        AUTO_SUBMIT_UPON_TIMEOUT=true;
+        {% else %}
+        AUTO_SUBMIT_UPON_TIMEOUT=false;
+        {% endif %}
+    </script>
+<script src="{% static 'js/ace-edittor/ace.js' %}" type="text/javascript" charset="utf-8"></script>
+<script src="{% static 'js/question-panels.js' %}" type="text/javascript">
+</script>
+<script src="{% static 'js/onlinetest-submission-create.js' %}" type="text/javascript">
+</script>
+<script src="{% static 'js/jquery.plugin.min.js' %}" type="text/javascript"></script>
+<script src="{% static 'js/jquery.countdown.min.js' %}"></script>
+{% endblock %}

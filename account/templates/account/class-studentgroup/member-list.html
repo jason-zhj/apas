@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block content %}
+    <h1>Member List</h1>
+    {% if group_summary %}
+        <blockquote>Group Info</blockquote>
+        {% autoescape off %}
+        {{ group_summary }}
+        {% endautoescape %}
+    {% endif %}
+
+    {% if students_in_group %}
+    <h3>Students already in the group:</h3>
+    <div class="alert alert-success" role="alert">
+        You can uncheck the students not to be included in this group
+    </div>
+    <table class="table table-hover" id="students_in_group">
+        <tr>
+            <th></th>
+            <th>Full Name</th>
+            <th>Matric</th>
+            <th>Edit</th>
+            <th></th>
+        </tr>
+        {% for profile in students_in_group %}
+            <tr>
+                <td><input type="checkbox" checked="True"/></td>
+                <td>{{ profile.fullname }}</td>
+                <td>{{ profile.matric_number }}</td>
+                <td><a href="{% url 'student_user_profile_edit' profile.user.id %}" target="_blank"><i class='fa fa-edit'></a></td>
+                <td><input type="hidden" name="id" value="{{ profile.id }}"/></td>
+            </tr>
+        {% endfor %}
+    </table>
+    {% else %}
+        <h3>No students already in the group</h3>
+    {% endif %}
+
+
+    {% if students_not_in_group %}
+    <a class="btn btn-primary" data-toggle="collapse" href="#students_div" aria-expanded="false" aria-controls="students_div">
+          Show/Hide students not in this group
+    </a>
+    <div class="collapse" id="students_div">
+        <h3>Students not in the group:</h3>
+        <div class="alert alert-success" role="alert">
+            You can check the students to be included in this group
+        </div>
+        <table class="table table-hover" id="students_not_in_group">
+            <tr>
+                <th></th>
+                <th>Full Name</th>
+                <th>Matric</th>
+                <th>Edit</th>
+                <th></th>
+            </tr>
+            {% for profile in students_not_in_group %}
+                <tr>
+                    <td><input type="checkbox"/></td>
+                    <td>{{ profile.fullname }}</td>
+                    <td>{{ profile.matric_number }}</td>
+                    <td><a href="{% url 'student_user_profile_edit' profile.user.id %}" target="_blank"><i class='fa fa-edit'></a></td>
+                    <td><input type="hidden" name="id" value="{{ profile.id }}"/></td>
+                </tr>
+            {% endfor %}
+        </table>
+     </div>
+    {% else %}
+        <h3>No students not in the group</h3>
+    {% endif %}
+<p></p>
+    <button type="button" class="btn btn-sm btn-default" id="submit_change" role="modal_trigger">Submit</button>
+    <form action="" method="post" id="member_form">
+        <input type="hidden" name="students_to_remove"/>
+        <input type="hidden" name="students_to_add"/>
+    </form>
+
+{% endblock %}
+{% block customjs %}
+        <script type="text/javascript" src="{% static 'js/member-list.js' %}">
+    </script>
+{% endblock %}

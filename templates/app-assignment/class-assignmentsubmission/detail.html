@@ -1,0 +1,11 @@
+{% if assignment_submission %}
+    {% if assignment_submission.is_grading_finished %}
+    <ol class="breadcrumb">
+        <li><a href="{% url 'assignment_submission_report' assignment_submission.assignment.slug assignment_submission.id %}">Get Submission Report</a></li>
+    </ol>
+    {% endif %}
+    <blockquote>Submission Info</blockquote>
+    {% autoescape off %}
+        {{ summary }}
+    {% endautoescape %}
+{% endif %}

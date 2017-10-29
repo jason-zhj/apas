@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block navsidebar %}
+    <div class="navbar-default sidebar" role="navigation">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+            <h3 class="panel-title">Time Remaining</h3>
+            </div>
+            <div class="panel-body">
+                <div id="test_timer"></div>
+            </div>
+        </div>
+    </div>
+    <input type="hidden" value="{{ test.time_limit }}" name="time_limit"/>
+{% endblock %}
+
+{% block right_nav %}
+{% endblock %}
+
+{% block content %}
+    <div class="page-header">
+        <h1>Online Test Submission View</h1>
+    </div>
+    {% autoescape off %}
+    {{ test_submission.get_summary_brief }}
+    {% endautoescape %}
+    {{ ot_question_submission_table }}
+    {% if attempts_remaining > 0 %}
+    <a type="button" id="reattempt_btn" class="btn btn-lg btn-primary" href="{{ request.path }}">Re-attempt({{ attempts_remaining }} time{{ attempts_remaining|pluralize }} remaining)</a>
+    {% endif %}
+    <a type="button" id="endtest_btn" class="btn btn-lg btn-danger" href="{% url 'online_test_submission_end_student' test_submission.online_test.slug %}">End Test</a>
+{% endblock %}
+
+{% block customjs %}
+    <script type="text/javascript">
+        END_YEAR={{ end_time_list.0 }};
+        END_MONTH={{ end_time_list.1 }};
+        END_DAY={{ end_time_list.2 }};
+        END_HOUR={{ end_time_list.3 }};
+        END_MINUTE={{ end_time_list.4 }};
+        END_SECOND={{ end_time_list.5 }};
+        REDIRECT_URL='{% url 'online_test_submission_end_student' test_submission.online_test.slug %}';
+    </script>
+
+<script src="{% static 'js/jquery.plugin.min.js' %}" type="text/javascript"></script>
+<script src="{% static 'js/jquery.countdown.min.js' %}"></script>
+<script src="{% static 'js/onlinetest-submission-after-create.js' %}" type="text/javascript">
+</script>
+{% endblock %}

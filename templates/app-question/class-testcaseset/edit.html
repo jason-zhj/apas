@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block content %}
+    <h1>Edit Test Case Set</h1>
+    <blockquote>For question: {{ question.title }}</blockquote>
+    {% if form %}
+        <form action="" method="post" id="testcase_set_form">
+            {{ form.as_p }}
+            {% include 'app-question/class-testcase/list.html' %}
+        </form>
+        <input type="submit" id="testcase_set_submit" form="testcase_set_form" role="modal_trigger"/>
+   {% endif %}
+    <a href="{% url 'test_case_set_list' question.slug %}">Go back to list</a>
+
+{% endblock %}
+{% block customjs %}
+    <script src="{% static 'js/test-case-set-edit.js' %}"></script>
+{% endblock %}

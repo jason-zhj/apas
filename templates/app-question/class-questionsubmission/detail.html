@@ -1,0 +1,95 @@
+{% extends 'base.html' %}
+{% load __userutil %}
+{% load staticfiles %}
+
+{% block content %}
+    <script src="{% static 'js/code-prettify.js' %}"></script>
+    <h1>Question submission result</h1>
+
+    {% if question_submission_summary %}
+        <blockquote>Submission Info</blockquote>
+        {{ question_submission_summary }}
+    {% endif %}
+
+    {% if user|has_group:'staff' %}
+        <ol class="breadcrumb">
+        {% if change_score_form %}&nbsp;&nbsp;<li><a href="#changing_score_form">Change the score</a></li>{% endif %}
+        {% if changing_score_records %}&nbsp;&nbsp;<li><a href="#changing_score_records">See score changing records</a></li>{% endif %}
+        </ol>
+    {% endif %}
+
+
+{#     <textarea name="code" id="" cols="30" rows="10">{{ question_submission.get_source_code }}</textarea>#}
+    <a class="btn btn-primary" data-toggle="collapse" href="#code_div" aria-expanded="false" aria-controls="code_div">
+          Show/Hide submitted code
+    </a>
+    <div class="collapse" id="code_div">
+    <pre class="prettyprint">
+    {{ question_submission.get_source_code }}
+    </pre>
+    </div>
+    <p></p><p></p>
+    {% if test_results %}
+        <a class="btn btn-primary" data-toggle="collapse" href="#changing_score_records" aria-expanded="false" aria-controls="changing_score_records">
+          Show/Hide test case results
+        </a>
+        <div class="panel panel-primary collapse" id="changing_score_records">
+            <div class="panel-heading">
+                Test case results
+            </div>
+            <div class="panel-body">
+            {% for test_result in test_results %}
+                {{ test_result.get_report }}
+            {% endfor %}
+            </div>
+        </div>
+    {% endif %}
+
+    <p></p><p></p>
+    {% if changing_score_records %}
+
+         <div class="panel panel-primary" id="changing_score_records">
+            <div class="panel-heading">
+                Score Changing Records
+            </div>
+            <div class="panel-body">
+               <table class="table table-hover">
+                    <tr>
+                        <th>From</th>
+                        <th>To</th>
+                        <th>Changed By</th>
+                        <th>Comment for change</th>
+                    </tr>
+                    {% for record in changing_score_records %}
+                        <tr>
+                            <td>{{ record.initial_score }}</td>
+                            <td>{{ record.result_score }}</td>
+                            <td>{{ record.remarker.username }}</td>
+                            <td><p>{{ record.comment }}</p></td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+    {% endif %}
+{#    Remarking area#}
+    {% if user|has_group:'staff' %}
+    {% if change_score_form %}
+         <div class="panel panel-primary" id="changing_score_form">
+            <div class="panel-heading">
+                Change Score
+            </div>
+            <div class="panel-body">
+
+                <form action="" method="post" id="remarking_form">
+                    {{ change_score_form.as_p }}
+                </form>
+            </div>
+            <div class="panel-footer">
+                <input type="submit" form="remarking_form" role="modal_trigger"/>
+            </div>
+        </div>
+    {% endif %}
+    {% endif %}
+    <p class="clearfix"></p>
+{% endblock %}

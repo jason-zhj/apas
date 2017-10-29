@@ -1,0 +1,11 @@
+<a class="btn btn-primary" data-toggle="collapse" href="#question_info" aria-expanded="false" aria-controls="changing_score_records">
+  Show/Hide question info
+</a>
+<div class="panel panel-primary collapse" id="question_info">
+{% autoescape off %}
+{{ question_summary }}
+{% endautoescape %}
+</div>
+<p></p>
+{#        <a type="button" class="btn btn-lg btn-success" href="{% url 'test_case_create' question.slug %}">Add Single Test Case</a>#}
+<a type="button" class="btn btn-lg btn-success" href="{% url 'test_case_set_create' question.slug %}">Add New Set</a>

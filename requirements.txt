@@ -1,0 +1,3 @@
+python-decouple
+django==1.7.4
+pytz

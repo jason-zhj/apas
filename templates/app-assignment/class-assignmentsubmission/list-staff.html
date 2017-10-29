@@ -1,0 +1,13 @@
+
+{% autoescape off %}
+    {{ assignment_summary }}
+{% endautoescape %}
+{% if assignment.has_ungraded_submission %}
+    <a type="button" class="btn btn-primary" href="{% url 'assignment_submission_grade' assignment.slug %}" role="modal_trigger" message="Doing grading...">Grade ungraded submissions</a>
+{% endif %}
+{% if assignment.has_submission %}
+    <a type="button" class="btn btn-primary" href="{% url 'assignment_submission_find_strange_code' assignment.slug %}" role="modal_trigger" message="Checking code...">Find Strange Code</a>
+    <a type="button" class="btn btn-primary" href="{% url 'assignment_submission_validate_requirement' assignment.slug %}" role="modal_trigger" message="Checking code...">Spot invalid submissions</a>
+    <a type="button" class="btn btn-primary" href="{% url 'assignment_submission_create_result_sheet' assignment.slug %}">Get score sheet</a>
+    <a type="button" class="btn btn-primary" href="{% url 'assignment_submission_plagiarism_check' assignment.slug %}" role="modal_trigger" message="Doing plagiarism checking...">Check for plagiarism</a>
+{% endif %}

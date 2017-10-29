@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block customstyle %}
+<style type="text/css" media="screen">
+div[role="code_editor"] {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+}
+</style>
+{% endblock %}
+
+
+{% block content %}
+    <div class="page-header">
+        <h1>Assignment Submission</h1>
+    </div>
+    <blockquote>
+    {% autoescape off %}
+        {{ assignment_summary }}
+    {% endautoescape %}
+    </blockquote>
+    <form action="" method="post" class="hidden" id="code_form"></form>
+    {% if questions %}
+        {% include 'appglobal/question-panels.html' %}
+    {% endif %}
+
+    <input type="submit" value="Submit" form="code_form" role="modal_trigger"/>
+{% endblock %}
+
+{% block customjs %}
+<script src="{% static 'js/ace-edittor/ace.js' %}" type="text/javascript" charset="utf-8"></script>
+<script src="{% static 'js/question-panels.js' %}" type="text/javascript">
+</script>
+<script src="{% static 'js/assignment-submission-create.js' %}" type="text/javascript">
+</script>
+{% endblock %}

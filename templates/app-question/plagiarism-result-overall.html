@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="page-header">
+        <h1>Plagiarism Check</h1>
+    </div>
+    {% if question_tuples %}
+        <table class="table table-hover">
+        <tr>
+            <th>Question title</th>
+            <th>Check Result</th>
+        </tr>
+        {% for question,is_plagiarised in question_tuples %}
+            <tr>
+                <td>
+                    {% ifequal is_plagiarised True %}
+                        <a href="{% url 'question_submission_plagiarism_check' question.slug %}">
+                        {{ question.title }}</a>
+                    {% else %}
+                        <a href="{% url 'question_submission_plagiarism_check' question.slug %}">
+                        {{ question.title }}
+                    {% endifequal %}
+
+                </td>
+                <td>
+                    {% ifequal is_plagiarised True %}
+                        <span class="label label-warning">Plagiarism Found</span>
+                    {% else %}
+                        <span class="label label-success">No Plagiarism Found</span>
+                    {% endifequal %}
+                </td>
+            </tr>
+        {% endfor %}
+        </table>
+    {% endif %}
+{% endblock %}

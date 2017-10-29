@@ -1,0 +1,34 @@
+{% load staticfiles %}
+
+{% for question in questions %}
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">Question {{ forloop.counter }}: {{ question.title }}</h3>
+        </div>
+        <div class="panel-body">
+            {% autoescape off %}
+                {{ question.get_summary_brief }}
+            {% endautoescape %}
+            <ul class="list-group">
+                <li class="list-group-item"><h4>Program Code</h4></li>
+                <li class="list-group-item">
+                <div id="editor{{ forloop.counter0 }}" rank="{{ forloop.counter0 }}" role="code_editor">
+                    {% if question.code_template %}
+                    {{ question.code_template }}
+                    {% else %}
+                     /*Enter your code here*/
+                    {% endif %}
+                </div>
+                <textarea rows="10" class="form-control" name="code" id="code" form="code_form"></textarea>
+                    <input type="hidden" name="editor_language_name" value="{{ question.get_editor_language_name }}"/>
+                </li>
+                <li class="list-group-item"><a type="button" class="btn btn-sm btn-default" role="trigger_compilation">Try Compilation</a>
+                    <img src="{% static 'img/loader.gif' %}" class="hidden" height="50px" width="50px" alt="Please Wait..."/>
+                    <input type="hidden" value="{{ question.required_language }}" name="required_language"/>
+                    <div class="alert alert-danger hidden" role="alert">
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+{% endfor %}

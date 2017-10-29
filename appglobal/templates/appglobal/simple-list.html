@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+{% load __userutil %}
+{% load staticfiles %}
+{% block precontent %}
+    {% if title %}
+        <div class="page-header">
+            <h1>{{ title }}</h1>
+        </div>
+    {% endif %}
+{% endblock %}
+{% block content %}
+    {% if extra_content %}
+        {{ extra_content }}
+    {% endif %}
+    <p class="clearfix"></p>
+    <p class="clearfix"></p>
+    {% if search_tuple_list %}
+        <form class="form-inline">
+            <div class="form-group">
+                <label for="search_content">Search </label>
+                {% if search_word %}
+                <input type="text" class="form-control" id="search_content" value="{{ search_word }}">
+                {% else %}
+                <input type="text" class="form-control" id="search_content" placeholder="Search here">
+                {% endif %}
+            </div>
+            <div class="form-group">
+                <label for="search_field">By </label>
+                <select class="form-control" id="search_field">
+                    {% for tuple in search_tuple_list %}
+                        {% ifequal tuple.0 search_by %}
+                            <option value="{{ tuple.0 }}" selected="selected">{{ tuple.1 }}</option>
+                         {% else %}
+                            <option value="{{ tuple.0 }}">{{ tuple.1 }}</option>
+                        {% endifequal %}
+                    {% endfor %}
+                </select>
+            </div>
+            <a class="btn btn-default" id="list_search">Search</a>
+            <label>Sort By: </label>
+            <select class="form-control" id="list_sort">
+                <option value="">--------</option>
+                {% for item in sort_tuple_list %}
+                    <option value="{{ item.0 }}">{{ item.1 }} (Ascending)</option>
+                    <option value="-{{ item.0 }}">{{ item.1 }} (Descending)</option>
+                {% endfor %}
+            </select>
+        </form>
+
+    {% endif %}
+
+    {% if table %}
+        {% autoescape off %}
+        {{ table }}
+        {% endautoescape %}
+    {% endif %}
+    <div>
+        <ul class="pager">
+          {% if paginated_data.paginator.count > 0 %}
+          <li><a href="#">Page {{ paginated_data.number }} of {{ paginated_data.paginator.num_pages }}</a></li>
+          {% endif %}
+          {% if paginated_data.has_previous %}
+          <li><a href="{% paginated_url  paginated_data.previous_page_number %}">&laquo;</a></li>
+          {% endif %}
+          {% for page in paginated_data.paginator.page_range %}
+          <li><a href="{% paginated_url  page %}">{{ page }}</a></li>
+          {% endfor %}
+          {% if paginated_data.has_next %}
+          <li><a href="{% paginated_url  paginated_data.next_page_number %}">&raquo;</a></li>
+          {% endif %}
+        </ul>
+    </div>
+{% endblock %}
+
+{% block customjs %}
+    <script type="text/javascript" src="{% static 'js/tables.js' %}"></script>
+{% endblock %}

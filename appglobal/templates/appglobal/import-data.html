@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    {% if type %}
+        <h1>Import {{ type }} data</h1>
+            <div class="alert alert-success" role="alert">
+                {% if fields_required %}
+                <p>Choose an csv file that contains the following fields:</p>
+                <p>{{ fields_required }}</p>
+                {% else %}
+                    <p>Please upload a csv file</p>
+                {% endif %}
+            </div>
+        <form action="" method="post" enctype="multipart/form-data">
+            <input type="file" name="file"/>
+            <input type="submit" role="modal_trigger" message="Importing {{ type }} data..."/>
+        </form>
+    {% endif %}
+{% endblock %}

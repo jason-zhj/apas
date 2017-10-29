@@ -1,0 +1,14 @@
+{% autoescape off %}
+    {{ test_summary }}
+{% endautoescape %}
+{% if test.has_ungraded_submission %}
+    <a type="button" class="btn btn-primary" href="{% url 'online_test_submission_grade' test.slug %}" role="modal_trigger" message="Doing grading...">Grade ungraded submissions</a>
+
+{% endif %}
+{% if test.has_submission %}
+    <a type="button" class="btn btn-primary" href="{% url 'online_test_submission_find_strange_code' test.slug %}" role="modal_trigger" message="Checking code...">Find Strange Code</a>
+    <a type="button" class="btn btn-primary" href="{% url 'online_test_submission_validate_requirement' test.slug %}" role="modal_trigger" message="Checking code...">Spot invalid submissions</a>
+    <a type="button" class="btn btn-primary" href="{% url 'online_test_submission_plagiarism_check' test.slug %}" role="modal_trigger" message="Doing plagiarism checking...">Check for plagiarism</a>
+    <a type="button" class="btn btn-primary" href="{% url 'online_test_submission_create_result_sheet' test.slug %}">Get score sheet</a>
+    <a type="button" class="btn btn-primary" href="{% url 'online_test_submission_create_question_sheet' test.slug %}">Get attempted question sheet</a>
+{% endif %}

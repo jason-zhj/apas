@@ -1,0 +1,12 @@
+{% load __userutil %}
+
+<ul class="list-group">
+    {% for item in items %}
+        <li class="list-group-item">
+        {{ item.0 }} :
+            {% autoescape off %}
+            {{ item.1|decorate_list_item }}
+            {% endautoescape %}
+        </li>
+    {% endfor %}
+</ul>

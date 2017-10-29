@@ -1,0 +1,45 @@
+{% load staticfiles %}
+
+{% if title %}
+    <div class="page-header">
+        <h1>{{ title }}</h1>
+    </div>
+{% endif %}
+
+<form action="{{ group_delete_url }}" method="post" id="delete_form" enctype="multipart/form-data" class="hidden">
+</form>
+{% if data %}
+<table class="table table-hover">
+{#header#}
+    <tr>
+    {% if delete %}
+        <th><input type="checkbox" name="checkall"/></th>
+    {% endif %}
+        {% for field in fields %}
+        <th>{{ field }}</th>
+        {% endfor %}
+    </tr>
+    {% for datum in data %}
+        <tr>
+            {% if delete %}
+            <td><input type="checkbox" name="delete" form="delete_form" value="{{ datum.0 }}"/>
+                <input type="hidden" name="id" form="delete_form" value="{{ datum.0 }}"/></td>
+            {% endif %}
+            {% for item in datum %}
+                {% ifnotequal forloop.counter0 0 %}
+                <td>
+                    {% autoescape off %}{{ item }}{% endautoescape %}</td>
+                {% endifnotequal %}
+             {% endfor %}
+        </tr>
+    {% endfor %}
+</table>
+    
+{% if delete %}
+    <button type="submit" class="btn btn-default" role="confirm_modal_trigger" form="delete_form" confirm_message="Are you sure to delete the selected items?">Delete Selected Items</button>
+{% endif %}
+{% endif %}
+
+<script>
+    group_delete_url='{{ group_delete_url }}';
+</script>

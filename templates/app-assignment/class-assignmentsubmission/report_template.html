@@ -1,0 +1,36 @@
+{% extends 'report_base.html' %}
+
+{% block content %}
+    <div class="jumbotron">
+        <h1>Assignment Submission Report</h1>
+    </div>
+
+    {% if assignment_summary %}
+        <div class="page-header">
+            <h1>Assignment Info</h1>
+        </div>
+        {% autoescape off %}
+            {{ assignment_summary }}
+        {% endautoescape %}
+    {% endif %}
+
+    {% if assignment_submission_summary %}
+        <div class="page-header">
+            <h1>Assignment Submission Result</h1>
+        </div>
+        {% autoescape off %}
+            {{ assignment_submission_summary }}
+        {% endautoescape %}
+    {% endif %}
+
+    {% if question_submission_reports %}
+        <div class="page-header">
+            <h1>Submission Details</h1>
+        </div>
+        {% for report in  question_submission_reports %}
+            {% autoescape off %}
+            {{ report }}
+            {% endautoescape %}
+        {% endfor %}
+    {% endif %}
+{% endblock %}

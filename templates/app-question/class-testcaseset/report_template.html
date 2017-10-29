@@ -1,0 +1,32 @@
+{% if testcase_set_result %}
+<div class="panel panel-info">
+    <div class="panel-heading">
+        <h3 class="panel-title">Test Case Set: <strong>{{ testcase_set_result.test_case_set.title }}</strong>
+            <span class="label label-default">{{ testcase_set_result.test_case_set.weightage }} %</span>
+        </h3>
+    </div>
+    <div class="panel-body">
+    {% ifequal testcase_set_result.score 100 %}
+        <p>Score : 100  No error</p>
+    {% else %}
+        <p>Score: {{ testcase_set_result.score }}</p>
+        <p>Grading method: {{ testcase_set_result.test_case_set.get_grading_method }}</p>
+        {% if test_case_results %}
+            {% for test_case_result in test_case_results %}
+                <ul class="list-group">
+                    <li class="list-group-item"><p>Test Inputs:</p>
+                    <pre>{{ test_case_result.test_case.test_inputs }}</pre>
+                    </li>
+                    <li class="list-group-item"><p>Test Results:</p>
+                    <pre>
+                        {{ test_case_result.result_detail|linebreaks }}
+                    </pre>
+                    </li>
+                    <li class="list-group-item"><p>Score: {{ test_case_result.score }}</p></li>
+                </ul>
+            {% endfor %}
+        {% endif %}
+    {% endifequal %}
+    </div>
+</div>
+{% endif %}

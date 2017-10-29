@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block customstyle %}
+    {% if custom_css_list %}
+        {% for custom_css in custom_css_list %}
+            <link href="{% static custom_css %}" rel="stylesheet">
+        {% endfor %}
+    {% endif %}
+{% endblock %}
+
+
+{% block content %}
+    <div class="page-header">
+        <h1>{{ title }}</h1>
+    </div>
+    {% if form %}
+        <form action="" method="post" id="edit_form" enctype="multipart/form-data">
+            {{ form.as_p }}
+        </form>
+        {% if show_wait_modal %}
+        <input type="submit" form="edit_form" role="modal_trigger"/>
+        {% else %}
+        <input type="submit" form="edit_form"/>
+        {% endif %}
+   {% endif %}
+    <p class="clearfix"></p>
+    {% if go_back_url %}
+    <ol class="breadcrumb">
+        <li><a href="{{ go_back_url }}">Go back to list</a></li>
+    </ol>
+    {% endif %}
+
+{% endblock %}
+
+{% block customjs %}
+    {% if custom_js_list %}
+        {% for custom_js in custom_js_list %}
+            <script type="text/javascript" src="{% static custom_js %}"></script>
+        {% endfor %}
+    {% endif %}
+{% endblock %}

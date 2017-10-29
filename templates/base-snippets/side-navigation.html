@@ -1,0 +1,152 @@
+{% load __userutil %}
+
+{% if user.is_authenticated %}
+            <div class="navbar-default sidebar" role="navigation">
+                <div class="sidebar-nav navbar-collapse">
+                    <ul class="nav" id="side-menu">
+{#                        Accounts Menu#}
+                        <li>
+                            <a href="#"><i class="fa fa-user"></i> My Account<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li>
+                                    <a href="{% url 'change_password' %}">Change Password</a>
+                                </li>
+                            </ul>
+                            <!-- /.nav-second-level -->
+                        </li>
+{#                          Question Menu(staff only)#}
+                        {% if user|has_group:'staff' %}
+                        <li>
+                            <a href="#"><i class="fa fa-question-circle"></i> Question<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li>
+                                    <a href="{% url 'question_list' %}">View/Edit</a>
+                                </li>
+                                <li>
+                                    <a href="{% url 'question_create' %}">Set New</a>
+                                </li>
+                                <li>
+                                    <a href="#">Topic</a>
+                                    <ul class="nav nav-third-level">
+                                        <li>
+                                            <a href="{% url 'question_topic_list' %}">View/Edit</a>
+                                        </li>
+                                        <li>
+                                            <a href="{% url 'question_topic_create' %}">Set New</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a href="#">Pool</a>
+                                    <ul class="nav nav-third-level">
+                                        <li>
+                                            <a href="{% url 'question_pool_list' %}">View/Edit</a>
+                                        </li>
+                                        <li>
+                                            <a href="{% url 'question_pool_create' %}">Set New</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                            <!-- /.nav-second-level -->
+                        </li>
+                        {% endif %}
+{#                        Assignment Menu#}
+                        <li>
+                            <a href="#"><i class="fa fa-laptop"></i> Assignment<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                {% if user|has_group:'student' %}
+                                <li>
+                                    <a href="{% url 'assignment_submission_list_student' %}">View Past Submissions</a>
+                                </li>
+                                <li>
+                                    <a href="{% url 'assignment_list_student' %}">Submit New</a>
+                                </li>
+                                {% endif %}
+
+                                {% if user|has_group:'staff' %}
+                                <li>
+                                    <a href="{% url 'assignment_list' %}">View/Edit</a>
+                                </li>
+                                <li>
+                                    <a href="{% url 'assignment_create' %}">Set New</a>
+                                </li>
+                                <li>
+                                    <a href="{% url 'assignment_clear_submission' %}" role="confirm_modal_trigger" confirm_message="Do you really want to clear all the submission data?">Clear Submissions</a>
+                                </li>
+                                {% endif %}
+                            </ul>
+                            <!-- /.nav-second-level -->
+                        </li>
+{#                        Test Menu#}
+                        <li>
+                            <a href="#"><i class="fa fa-pencil"></i> Online Test<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                {% if user|has_group:'student' %}
+                                <li>
+                                    <a href="{% url 'online_test_submission_list_student' %}">View Past Tests</a>
+                                </li>
+                                <li>
+                                    <a href="{% url 'online_test_list_student' %}">Do Test</a>
+                                </li>
+                                {% endif %}
+                                {% if user|has_group:'staff' %}
+                                <li>
+                                    <a  href="{% url 'online_test_list' %}">View/Edit</a>
+                                </li>
+                                <li>
+                                    <a  href="{% url 'online_test_create' %}">Set New</a>
+                                </li>
+                                    <li>
+                                    <a  href="{% url 'online_test_clear_submission' %}" role="confirm_modal_trigger" confirm_message="Do you really want clear submission data for online tests?">Clear Submissions</a>
+                                </li>
+                                {% endif %}
+                            </ul>
+                            <!-- /.nav-second-level -->
+                        </li>
+{#                        User management Menu#}
+                        {% if user|has_group:'staff' %}
+                        <li>
+                            <a href="#"><i class="fa fa-list-alt"></i> User Management<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li>
+                                    <a href="#">Student Group</a>
+                                    <ul class="nav nav-third-level">
+                                        <li>
+                                            <a href="{% url 'student_group_list' %}">View/Edit</a>
+                                        </li>
+                                        <li>
+                                            <a href="{% url 'student_group_create' %}">Set New</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a href="#">Student User</a>
+                                    <ul class="nav nav-third-level">
+                                        <li>
+                                            <a href="{% url 'student_user_profile_list' %}">View/Edit</a>
+                                        </li>
+                                        <li>
+                                            <a href="{% url 'user_create' %}">Set New</a>
+                                        </li>
+                                        <li>
+                                            <a href="{% url 'student_user_profile_import' %}">Import User Data</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                            <!-- /.nav-second-level -->
+                        </li>
+                        {% endif %}
+                        {% if user|has_group:'staff' %}
+{#                        <li>#}
+{#                            <a href="{% url 'system_configuration' %}"><i class="fa fa-gear"></i>System Configuration<span class="fa arrow"></span></a>#}
+{##}
+{#                        </li>#}
+                        {% endif %}
+                    </ul>
+                </div>
+                <!-- /.sidebar-collapse -->
+            </div>
+            <!-- /.navbar-static-side -->
+{% endif %}

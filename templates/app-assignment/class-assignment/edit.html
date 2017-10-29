@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block customstyle %}
+    <link href="{% static 'css/jquery.datetimepicker.css' %}" rel="stylesheet">
+{#    <link href="{% static 'css/bootstrap-switch.css' %}" rel="stylesheet">#}
+{% endblock %}
+
+{% block content %}
+    <h1>Edit Assignment</h1>
+    {% if form %}
+        <form action="" method="post" id="data_form" enctype="multipart/form-data">
+            {{ form.as_p }}
+        </form>
+        <div class="panel panel-default" id="test_case_list_panel">
+            <div class="panel-heading">
+                    <h3 class="panel-title">Select Questions</h3>
+                </div>
+    {#            for selecting questions#}
+            <div class="panel-body">
+                <table class="table table-hover" id="selection_table">
+                    <tr>
+                        <th><i class="fa fa-check-square"></i></th>
+                        <th>Question Title</th>
+                        <th>Weightage</th>
+                        <th class="hidden"></th>
+                    </tr>
+                {% if questions %}
+                    {% if assignment_questions %}
+{#                        This is in edit mode#}
+                        {% for assignment_question in assignment_questions %}
+                            <tr>
+                                <td><input type="checkbox" name="chosen" checked="true"/></td>
+                                <td><a href="{% url 'question_edit' assignment_question.question.slug %}" target="_blank">{{ assignment_question.question.title }}</a></td>
+                                <td><input type="text" name="weightage" value="{{ assignment_question.weightage }}"/></td>
+                                <td><input type="hidden" name="id" value="{{ assignment_question.question.slug }}"/></td>
+                            </tr>
+                        {% endfor %}
+                    {% endif %}
+                    {% for question in questions %}
+                        {% if assignment %}
+{#                            this is in edit mode#}
+                            {% if question in assignment.questions %}
+                            {% else %}
+                                <tr>
+                                    <td><input type="checkbox" name="chosen"/></td>
+                                    <td><a href="{% url 'question_edit' question.slug %}" target="_blank">{{ question.title }}</a></td>
+                                    <td><input type="text" name="weightage"/></td>
+                                    <td><input type="hidden" name="id" value="{{ question.slug }}"/></td>
+                                </tr>
+                            {% endif %}
+                        {% else %}
+                            <tr>
+                                <td><input type="checkbox" name="chosen"/></td>
+                                <td><a href="{% url 'question_edit' question.slug %}" target="_blank">{{ question.title }}</a></td>
+                                <td><input type="text" name="weightage"/></td>
+                                <td><input type="hidden" name="id" value="{{ question.slug }}"/></td>
+                            </tr>
+                        {% endif %}
+
+                    {% endfor %}
+                {% else %}
+                    <th>No questions</th>
+                {% endif %}
+                </table>
+            </div>
+        </div>
+        <input type="hidden" name="m2m_record" form="data_form" value="questions"/>
+        <input type="submit" id="submit_button" form="data_form"/>
+   {% endif %}
+   <ol class="breadcrumb">
+        <li><a href="{% url 'assignment_list' %}">Go back to list</a></li>
+    </ol>
+
+{% endblock %}
+{% block customjs %}
+    <script type="text/javascript" src="{% static 'js/jquery.datetimepicker.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/validate_m2m_assignment.js' %}">
+    </script>
+    <script type="text/javascript" src="{% static 'js/m2m_selection.js' %}">
+    </script>
+{% endblock %}

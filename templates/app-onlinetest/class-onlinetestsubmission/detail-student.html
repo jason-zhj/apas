@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="page-header">
+        <h1>Online Test Submission View</h1>
+    </div>
+    {% autoescape off %}
+    {{ test_submission.get_summary_brief }}
+    {% endautoescape %}
+    {{ ot_question_submission_table }}
+{% endblock %}

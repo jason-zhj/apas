@@ -1,0 +1,113 @@
+{% load staticfiles %}
+{% load __userutil %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Automated Programming Assessment System</title>
+    <!-- Bootstrap Core CSS -->
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+    <!-- MetisMenu CSS -->
+    <link href="{% static 'css/metisMenu.min.css' %}" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="{% static 'css/sb-admin-2.css' %}" rel="stylesheet">
+    <link href="{% static 'css/multi-select.css' %}" rel="stylesheet">
+{#    <link href="{% static 'css/pqgrid.min.css' %}" rel="stylesheet">#}
+    <!-- Custom Fonts -->
+    <link href="{% static 'css/font-awesome.min.css' %}" rel="stylesheet" type="text/css">
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    {% block customstyle %}
+    {% endblock %}
+</head>
+
+<body>
+    <div id="wrapper">
+        <!-- Navigation -->
+        <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="/">Automated Programming Assessment System</a>
+            </div>
+            <!-- /.navbar-header -->
+
+            <ul class="nav navbar-top-links navbar-right">
+                {% block right_nav %}
+                    {% include 'base-snippets/top-navigation.html' %}
+                {% endblock %}
+            </ul>
+
+
+            {% block navsidebar %}
+                {% include 'base-snippets/side-navigation.html' %}
+            {% endblock %}
+
+        </nav>
+
+        <div id="page-wrapper">
+            <div class="row">
+                <div class="col-xs-12">
+                    {% if messages %}
+                    <div class="alert alert-info" role="alert">
+                        {% for message in messages %}
+                            <p>{{ message }}</p>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+            {% block precontent %}
+            {% endblock %}
+            {% block content %}
+            {% endblock %}
+        </div>
+        <!-- /#page-wrapper -->
+    </div>
+
+    {# modal for showing messages #}
+    <div class="modal fade bs-example-modal-sm" id="msg_modal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+      <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+        <table>
+            <tbody>
+            <tr>
+                <td colspan="6"><img src="{% static 'img/loader.gif' %}" height="50" width="50" alt=""/></td>
+                <td colspan="8"><p role="message">Please wait...</p></td>
+            </tr>
+            </tbody>
+        </table>
+
+        </div>
+      </div>
+    </div>
+    <!-- /#wrapper -->
+    <!-- jQuery -->
+    <script src="{% static 'js/jquery.min.js' %}"></script>
+    <!-- Bootstrap Core JavaScript -->
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <!-- Metis Menu Plugin JavaScript -->
+    <script src="{% static 'js/metisMenu.min.js' %}"></script>
+    <!-- Custom Theme JavaScript -->
+    <script src="{% static 'js/sb-admin-2.js' %}"></script>
+
+{#    <script src="{% static 'js/pqgrid.min.js' %}"></script>#}
+
+    <script src="{% static 'js/global.js' %}"></script>
+    <script src="{% static 'js/jquery.multi-select.js' %}"></script>
+    {% block customjs %}{% endblock %}
+</body>
+
+</html>

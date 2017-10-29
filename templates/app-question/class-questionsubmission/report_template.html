@@ -1,0 +1,43 @@
+{% if question_submission %}
+    <div class="panel panel-success">
+        <div class="panel-heading">
+            <h3 class="panel-title">Question: {{ question_submission.question.title }}</h3>
+        </div>
+        <div class="panel-body">
+            <p>Question content: {{ question_submission.question.content }}</p>
+            <p>Language: {{ question_submission.question.required_language }}</p>
+            <p>Submission time: {{ question_submission.submission_time }}</p>
+            <p>Score: {{ question_submission.score }}</p>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Code</h3>
+                </div>
+                <div class="panel-body">
+                    <h4>Submitted Code:</h4>
+                    <pre class="prettyprint">
+                        {{ question_submission.get_source_code }}
+                    </pre>
+                    {% if question_submission.question.suggested_solution %}
+                        <h4>Suggested Solution</h4>
+                        <pre class="prettyprint">
+                            {{ question_submission.get_source_code }}
+                        </pre>
+                    {% endif %}
+                    <p></p>
+                    {% if question_submission.get_code_analysis_report %}
+                        <h4>Analysis:</h4>
+                        <p>{{ question_submission.get_code_analysis_report }}</p>
+                    {% endif %}
+                    <p></p>
+                    {% if test_case_set_results %}
+                        <h4>Test Case Result:</h4>
+                        {% for test_case_set_result in test_case_set_results %}
+                            {{ test_case_set_result.get_report }}
+                        {% endfor %}
+                    {% endif %}
+                </div>
+            </div>
+
+        </div>
+    </div>
+{% endif %}

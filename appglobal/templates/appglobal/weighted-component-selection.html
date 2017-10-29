@@ -1,0 +1,52 @@
+<div class="panel panel-default" id="component_select_panel">
+    <div class="panel-heading">
+            <h3 class="panel-title">Select {{ type }}</h3>
+        </div>
+{#            for selecting questions#}
+    <div class="panel-body">
+        <table class="table table-hover" id="question_table">
+            <tr>
+                <th><i class="fa fa-check-square"></i></th>
+                <th>Question Title</th>
+                <th>Weightage</th>
+                <th class="hidden"></th>
+            </tr>
+        {% if questions %}
+            {% if assignment_questions %}
+{#                        This is in edit mode#}
+                {% for assignment_question in assignment_questions %}
+                    <tr>
+                        <td><input type="checkbox" name="chosen" checked="true"/></td>
+                        <td><a href="{% url 'question_edit' assignment_question.question.slug %}" target="_blank">{{ assignment_question.question.title }}</a></td>
+                        <td><input type="text" name="weightage" value="{{ assignment_question.weightage }}"/></td>
+                        <td><input type="hidden" name="id" value="{{ assignment_question.question.slug }}"/></td>
+                    </tr>
+                {% endfor %}
+            {% endif %}
+            {% for question in questions %}
+                {% if assignment %}
+{#                            this is in edit mode#}
+                    {% if question in assignment.questions %}
+                    {% else %}
+                        <tr>
+                            <td><input type="checkbox" name="chosen"/></td>
+                            <td><a href="{% url 'question_edit' question.slug %}" target="_blank">{{ question.title }}</a></td>
+                            <td><input type="text" name="weightage"/></td>
+                            <td><input type="hidden" name="id" value="{{ question.slug }}"/></td>
+                        </tr>
+                    {% endif %}
+                {% else %}
+                    <tr>
+                        <td><input type="checkbox" name="chosen"/></td>
+                        <td><a href="{% url 'question_edit' question.slug %}" target="_blank">{{ question.title }}</a></td>
+                        <td><input type="text" name="weightage"/></td>
+                        <td><input type="hidden" name="id" value="{{ question.slug }}"/></td>
+                    </tr>
+                {% endif %}
+
+            {% endfor %}
+        {% else %}
+            <th>No questions</th>
+        {% endif %}
+        </table>
+    </div>

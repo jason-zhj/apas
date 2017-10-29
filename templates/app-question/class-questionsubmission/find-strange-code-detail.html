@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block content %}
+    <div class="page-header">
+        <h1>Strange Code Finder</h1>
+    </div>
+    {% if question %}
+        <blockquote>Question Info</blockquote>
+        {% autoescape off %}
+            {{ question_summary }}
+        {% endautoescape %}
+        <a class="btn btn-primary" data-toggle="collapse" href="#code_div" aria-expanded="false" aria-controls="code_div">
+        Show/Hide Suggested Solution Code
+        </a>
+        <div class="collapse" id="code_div">
+            <pre class="prettyprint">
+            {{ question.suggested_solution }}
+            </pre>
+        </div>
+    {% endif %}
+    <p class="clearfix"></p>
+    {% if solution_report %}
+        <blockquote>Halstead Metrics of suggested solution</blockquote>
+        <pre>
+        {{ solution_report|linebreaks }}
+        </pre>
+    {% endif %}
+    <p class="clearfix"></p>
+    {% if submission_data %}
+        <blockquote>Strange Submissions</blockquote>
+        {% for question_submission,metric_report,diff in submission_data %}
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                  <h3 class="panel-title"><a href="{% url 'question_submission_view_student' question_submission.id %}" target="_blank">Submission by : {{ question_submission.submitted_by.username }}</a>
+                  </h3>
+                    <p>Score: {{ question_submission.score }}</p>
+                </div>
+                <div class="panel-body">
+                    <a class="btn btn-primary" data-toggle="collapse" href="#submitted_code_div{{ forloop.counter0 }}" aria-expanded="false" aria-controls="code_div">
+                    Show/Hide Submitted Code
+                    </a>
+                    <div class="collapse" id="submitted_code_div{{ forloop.counter0 }}">
+                        <pre class="prettyprint">
+                        {{ question_submission.get_source_code|linebreaks }}
+                        </pre>
+                    </div>
+                    <a class="btn btn-primary" data-toggle="collapse" href="#metrics_div{{ forloop.counter0 }}" aria-expanded="false" aria-controls="code_div">
+                    Show/Hide Halstead metrics report
+                    </a>
+                    <div class="collapse" id="metrics_div{{ forloop.counter0 }}">
+                        <pre>
+                        {{ metric_report|linebreaks }}
+                        </pre>
+                    </div>
+                </div>
+          </div>
+        {% endfor %}
+    {% endif %}
+{% endblock %}
+
+{% block customjs %}
+    <script src="{% static 'js/code-prettify.js' %}"></script>
+{% endblock %}

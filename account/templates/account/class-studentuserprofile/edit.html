@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block content %}
+    <h1>Edit Student Profile</h1>
+    {% if student_user %}
+    <h3>Username: {{ student_user.username }}</h3>
+    {% endif %}
+    {% if form %}
+        <form action="" method="post" id="user_form">
+            {{ form.as_p }}
+        </form>
+        <input type="submit" form="user_form" role="modal_trigger"/>
+   {% endif %}
+    <a href="{% url 'student_user_profile_list' %}">Go back to list</a>
+
+{% endblock %}

@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% load __userutil %}
+{% block content %}
+{% if user %}
+    <div class="page-header">
+        <h1>Welcome,{{ fullname }}</h1>
+    </div>
+    {% if new_assignment_submissions %}
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <i class="fa fa-bell fa-fw"></i> New Assignment Submissions
+        </div>
+        <!-- /.panel-heading -->
+        <div class="panel-body">
+            <div class="list-group">
+                {% for submission in new_assignment_submissions %}
+                <a href="{% url 'assignment_submission_list_staff' submission.assignment.slug %}" class="list-group-item">
+                    <i class="fa fa-comment fa-fw"></i> Assignment : {{ submission.assignment.title }}
+                    <span class="pull-right text-muted small"><em>Submitted by: {{ submission.submitted_by.username }}</em>
+                                    </span>
+                </a>
+                {% endfor %}
+            </div>
+        </div>
+        <!-- /.panel-body -->
+    </div>
+    {% endif %}
+    {% if new_test_submissions %}
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <i class="fa fa-bell fa-fw"></i> New Online Test Submissions
+        </div>
+        <!-- /.panel-heading -->
+        <div class="panel-body">
+            <div class="list-group">
+                {% for submission in new_test_submissions %}
+                <a href="{% url 'online_test_submission_list' submission.online_test.slug %}" class="list-group-item">
+                    <i class="fa fa-comment fa-fw"></i>Online Test : {{ submission.online_test.title }}
+                    <span class="pull-right text-muted small"><em>Submitted by: {{ submission.submitted_by.username }}</em>
+                                    </span>
+                </a>
+                {% endfor %}
+            </div>
+        </div>
+        <!-- /.panel-body -->
+    </div>
+    {% endif %}
+{% endif %}
+{% endblock %}

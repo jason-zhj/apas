@@ -1,0 +1,49 @@
+    <a type="button" class="btn btn-lg btn-primary" id="add_new_btn" href="#">Add New</a>
+    <table class="table table-hover" id="test_case_table">
+        <tr>
+            <th>Inputs</th>
+            <th>Expected Outputs</th>
+            <th class="hidden"></th>
+            <th>Edit</th>
+            <th>Delete</th>
+        </tr>
+    {% if test_cases %}
+        {% for test_case in test_cases %}
+            <tr>
+                <td ><p name="test_inputs">{{ test_case.test_inputs }}</p>
+                    <input type="hidden" name="test_inputs" value="{{ test_case.test_inputs }}"/></td>
+                <td><p name="expected_outputs">{{ test_case.expected_outputs_str }}</p>
+                    <input type="hidden" name="expected_outputs" value="{{ test_case.expected_outputs_str }}"/></td>
+                <td class="hidden"><input type="hidden" name="id" value="{{ test_case.id }}"/>
+                <input type='hidden' name='output_mark_allocation' value="{{ test_case.output_mark_allocation_str }}"/></td>
+                <td>
+                    <a role="edit_button" href="#"><i class='fa fa-edit'></i></a>
+                </td>
+                <td>
+                    <a role="delete_button" href="#" ><i class='fa fa-gavel'></i> </a>
+                </td>
+            </tr>
+        {% endfor %}
+    {% endif %}
+    </table>
+    <input type="hidden" name="_deleted_ids"/>
+
+<div class="modal fade" id="test_case_modal" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Edit Test Case</h4>
+      </div>
+      <div class="modal-body">
+        <input type="hidden" name="edit_id" value="0"/>
+            <p><label>Test Inputs:</label> <textarea cols="40"maxlength="5000" name="edit_test_inputs" rows="5" class="form-control"></textarea></p>
+            <p><label>Expected Outputs:</label><button type="button" class="btn btn-default" id="add_block">Add output block</button> <textarea cols="40"maxlength="5000" name="edit_expected_outputs" rows="5" class="form-control"></textarea></p>
+            <p><label>Output mark allocation:</label> <textarea cols="40"maxlength="5000" name="edit_output_mark_allocation" rows="5" class="form-control"></textarea></p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-lg btn-default" id="test_case_submit">Okay</button>
+        <button type="button" class="btn btn-lg btn-default" id="test_case_cancel">Cancel</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="page-header">
+        <h1>Strange Code Finder</h1>
+    </div>
+    {% if zipped_data %}
+        <table class="table table-hover">
+        <tr>
+            <th>Question title</th>
+            <th>Check Result</th>
+        </tr>
+        {% for question,submission_data in zipped_data %}
+            <tr>
+                <td>
+                    {% if submission_data %}
+                        <a href="{% url 'strange_question_submission_detail' forloop.counter0 %}">
+                        {{ question.title }}</a>
+                    {% else %}
+                        <p>{{ question.title }}</p>
+                    {% endif %}
+
+                </td>
+                <td>
+                    {% if submission_data %}
+                        <span class="label label-warning">Strange code Found</span>
+                    {% else %}
+                        <span class="label label-success">No strange code Found</span>
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+        </table>
+    {% endif %}
+{% endblock %}
