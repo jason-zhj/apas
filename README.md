@@ -1,4 +1,4 @@
-# [apas]()
+# apas
 
 Automated programming assessment system is an online judge system that supports assignment management, automatic grading, plagiarism check etc.
 It was built with the following tech stack:
